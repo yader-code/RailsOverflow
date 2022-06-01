@@ -1,0 +1,8 @@
+kind: pipeline
+type: docker
+name: RailsOverflow 
+
+- name: Run linter
+  image: ruby: 3.1.2
+  commands:
+    - bundle exec rubocop
