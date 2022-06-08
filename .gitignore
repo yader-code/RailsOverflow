@@ -32,4 +32,9 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore all .env files
 .env.*
+.env
+
+#Ignore the files for RubyMine IDE
+.idea
