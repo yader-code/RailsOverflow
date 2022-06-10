@@ -10,9 +10,7 @@ class User < ApplicationRecord
   private
 
   def upcase_first_letters
-    full_name = name.split
-    self.name = ''
-    full_name.each { |word| self.name += "#{word.capitalize} " }
+    self.name = name.split.each(&:capitalize!).join(' ')
   end
 
   def remove_white_spaces_begin_and_end_of_name
