@@ -9,4 +9,5 @@ steps:
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
   commands:
     - bundle package
+    - bundle exec rspec
     - bundle exec rubocop
