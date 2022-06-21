@@ -10,4 +10,4 @@ steps:
   commands:
     - bundle package
     - bundle exec rubocop
-    - bundle exec rspec spec/models
+    - bundle exec rspec
