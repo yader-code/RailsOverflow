@@ -7,7 +7,18 @@ steps:
   environment:
     BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
+    DATABASE_NAME: test
+    DATABASE_HOST: postgres-service
+    DATABASE_PORT: 5432
+    DATABASE_USERNAME: test_user
+    DATABASE_PASSWORD: password123
   commands:
     - bundle package
     - bundle exec rubocop
     - bundle exec rspec
+services:
+  - name: postgres-service
+    image: postgres:14
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: password123
