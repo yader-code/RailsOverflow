@@ -15,6 +15,7 @@ steps:
   commands:
     - bundle package
     - bundle exec rubocop
+    - bundle exec rails db:create db:migrate --trace
     - bundle exec rspec
 services:
   - name: postgres-service
