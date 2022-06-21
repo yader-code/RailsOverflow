@@ -7,7 +7,7 @@ steps:
   environment:
     BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
-    DATABASE_NAME: test
+    DATABASE_NAME: rails_overflow_test
     DB_HOST: postgres-service
     DB_PORT: 5432
     DB_USERNAME: test_user
