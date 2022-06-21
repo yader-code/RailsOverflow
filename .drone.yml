@@ -8,10 +8,10 @@ steps:
     BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
     DATABASE_NAME: test
-    DATABASE_HOST: postgres-service
-    DATABASE_PORT: 5432
-    DATABASE_USERNAME: test_user
-    DATABASE_PASSWORD: password123
+    DB_HOST: postgres-service
+    DB_PORT: 5432
+    DB_USERNAME: test_user
+    DB_PASSWORD: password123
   commands:
     - bundle package
     - bundle exec rubocop
