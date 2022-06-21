@@ -7,7 +7,6 @@ steps:
   environment:
     BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
-    - RAILS_ENV=test
   commands:
     - bundle package
     - bundle exec rubocop
