@@ -34,6 +34,7 @@
 
 # Ignore all .env.example file.
 .env.example
+.env
 
 #Ignore the files for RubyMine IDE.
 .idea
