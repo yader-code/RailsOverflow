@@ -1,23 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'when User correctly created' do
-    user = User.new(name: 'Jhader', keywords: ['Testing'])
+
+  let(:user) { User.new(name: 'Jhader', keywords: ['Testing']) }
+
+  context 'User correctly created' do
     it { expect(user).to be_valid }
   end
 
-  context 'when no name presence' do
-    user = User.new(name: nil, keywords: ['Testing'])
-    it  { expect(user).to_not be_valid }
+  context 'fail when no name presence' do
+    it 'without name is an invalid object' do
+      user.name = nil
+      expect(user).to_not be_valid
+    end
   end
 
-  context 'when no keywords presence' do
-    user = User.new(name: 'Jhader', keywords: nil)
-    it { expect(user).to_not be_valid }
+  context 'fail when no keywords presence' do
+    it 'without keywords is an invalid object' do
+      user.keywords = nil
+      expect(user).to_not be_valid
+    end
   end
 
   context 'when name length under 3 characters' do
-    user = User.new(name: 'Pi', keywords: ['Testing'])
-    it { expect(user).to_not be_valid }
+    it 'with less than 3 characters fails' do
+      user.name = 'Te'
+      expect(user).to_not be_valid
+    end
   end
 end
