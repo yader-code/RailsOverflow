@@ -7,6 +7,19 @@ steps:
   environment:
     BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
     BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
+    DATABASE_NAME: rails_overflow_test
+    DB_HOST: postgres-service
+    DB_PORT: 5432
+    DB_USERNAME: test_user
+    DB_PASSWORD: password123
   commands:
     - bundle package
     - bundle exec rubocop
+    - bundle exec rails db:create db:migrate --trace
+    - bundle exec rspec
+services:
+  - name: postgres-service
+    image: postgres:14
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: password123
