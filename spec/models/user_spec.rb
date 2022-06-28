@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  let(:user) { User.new(name: 'Jhader', keywords: ['Testing']) }
+  let(:user) { User.new(name: 'Jhader', keywords: ['Testing'], email: 'testing@test.com') }
 
   context 'User correctly created' do
     it { expect(user).to be_valid }
@@ -25,6 +25,13 @@ RSpec.describe User, type: :model do
   context 'when name length under 3 characters' do
     it 'with less than 3 characters fails' do
       user.name = 'Te'
+      expect(user).to_not be_valid
+    end
+  end
+
+  context 'fail when no email presence' do
+    it 'without email is an invalid object' do
+      user.email = nil
       expect(user).to_not be_valid
     end
   end
