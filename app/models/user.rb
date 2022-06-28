@@ -1,9 +1,13 @@
 class User < ApplicationRecord
+
+  has_secure_password :password, validations: false
+
   has_many :posts
   has_many :comments
 
   validates :name, presence: true
   validates :keywords, presence: true
+  validates :email, presence: true
 
   validates_length_of :name, minimum: 3
 
