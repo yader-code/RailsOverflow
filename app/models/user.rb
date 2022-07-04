@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :keywords, presence: true
-  validates :email, presence: true
+  validates :email, presence: true, uniqueness: true
 
   validates_length_of :name, minimum: 3
 

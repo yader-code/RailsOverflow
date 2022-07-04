@@ -1,11 +1,10 @@
 class SessionsController < ApplicationController
   def create
-    user = User.find_by_email(params[:email])
 
-    if user&.authenticate(params[:password])
-      old_values = session.to_hash
+    user = User.find_by_email(login_params[:email])
+
+    if user&.authenticate(login_params[:password])
       reset_session
-      session.update old_values.except('session_id')
       session[:user_id] = user.id
       render status: :ok
     else
@@ -14,25 +13,28 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.delete(:user_id)
+    reset_session
     render status: :no_content
   end
 
-  def singup
+  def signup
 
-    if User.find_by_email(params[:email]).nil?
-      user = User.create(name: params[:name], email: params[:email], keywords: params[:keywords],
-                         password: params[:password])
+    user = User.create(signup_params)
 
-      if user.save
-        render status: :created
-      else
-        render json: user.errors, status: :bad_request
-      end
-
+    if user.errors.present?
+      render json: user.errors, status: :bad_request
     else
-      render json: { "error": "the email #{params[:email]} already exists" }, status: :conflict
+      render status: :created
     end
+  end
 
+  private
+
+  def login_params
+    params.permit(:email, :password)
+  end
+
+  def signup_params
+    params.permit(:email, :password, :name, keywords: [])
   end
 end
