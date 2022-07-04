@@ -65,7 +65,7 @@ RSpec.describe 'Sessions', type: :request do
 
   describe 'POST /logout' do
     it 'when logout returns success (ok: no_content) ' do
-      post '/logout', headers: { 'CONTENT_TYPE' => 'application/json' }
+      post '/logout'
       expect(response).to have_http_status(:no_content)
     end
   end
