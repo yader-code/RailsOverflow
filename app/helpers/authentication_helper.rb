@@ -1,7 +1,7 @@
 module AuthenticationHelper
 
   def require_login
-    session[:user_id].present?
+    current_user.present?
   end
 
   def current_user
