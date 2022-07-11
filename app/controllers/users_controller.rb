@@ -17,8 +17,7 @@ class UsersController < ApplicationController
   def verify
     user = User.find_by_auth_token(user_token[:token])
     if user.present? && user.verified.nil?
-      user.update_attribute(:verified, true)
-      user.update_attribute(:verification_date, DateTime.now)
+      user.update(verified: true, verification_date: DateTime.now)
       return
     end
 

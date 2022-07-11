@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   validates_length_of :name, minimum: 3
-  validates_length_of :password, minimum: 6
+  validates_length_of :password, minimum: 6, if: :password_digest_changed?
 
   before_save :upcase_first_letters
   before_save :remove_white_spaces_begin_and_end_of_name

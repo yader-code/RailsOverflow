@@ -1,5 +1,3 @@
-require_relative '../mailers/user_mailer'
-
 class SessionsController < ApplicationController
 
   skip_before_action :require_login, only: %i[create signup]
@@ -23,12 +21,12 @@ class SessionsController < ApplicationController
 
   def signup
 
-    @user = User.create(signup_params)
+    user = User.create(signup_params)
 
-    if @user.errors.present?
-      render json: @user.errors, status: :bad_request
+    if user.errors.present?
+      render json: user.errors, status: :bad_request
     else
-      UserMailer.with(user: @user).send_verification_email.deliver_later
+      UserMailer.with(user: user).send_verification_email.deliver_later
       render status: :created
     end
   end

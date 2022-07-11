@@ -78,14 +78,12 @@ RSpec.describe 'Sessions', type: :request do
   describe 'POST /signup' do
 
     it 'returns http success (ok: created)' do
-      request_signup_ok
-
       perform_enqueued_jobs do
-        UserMailer.with(user: mail_user).send_verification_email.deliver_later
+        request_signup_ok
       end
 
       mail = ActionMailer::Base.deliveries.last
-      expect(mail.to[0]).to eq mail_user.email
+      expect(mail.to[0]).to eq 'signup@test.com'
 
       expect(response).to have_http_status(:created)
     end
