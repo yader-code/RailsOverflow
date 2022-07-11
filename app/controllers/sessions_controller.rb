@@ -1,17 +1,18 @@
+require_relative '../mailers/user_mailer'
+
 class SessionsController < ApplicationController
 
   skip_before_action :require_login, only: %i[create signup]
 
   def create
-
     user = User.find_by_email(login_params[:email])
 
-    if user&.authenticate(login_params[:password])
+    if user.verified && user&.authenticate(login_params[:password])
       reset_session
       session[:user_id] = user.id
-      render status: :ok
+      return render status: :ok
     else
-      render status: :unauthorized
+      return render status: :unauthorized
     end
   end
 
@@ -22,11 +23,12 @@ class SessionsController < ApplicationController
 
   def signup
 
-    user = User.create(signup_params)
+    @user = User.create(signup_params)
 
-    if user.errors.present?
-      render json: user.errors, status: :bad_request
+    if @user.errors.present?
+      render json: @user.errors, status: :bad_request
     else
+      UserMailer.with(user: @user).send_verification_email.deliver_later
       render status: :created
     end
   end
@@ -40,4 +42,5 @@ class SessionsController < ApplicationController
   def signup_params
     params.permit(:email, :password, :name, keywords: [])
   end
+
 end

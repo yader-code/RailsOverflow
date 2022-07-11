@@ -45,6 +45,10 @@ RSpec.describe 'Sessions', type: :request do
                                "email": "testing@test.com" }', headers: { 'CONTENT_TYPE' => 'application/json' }
   end
 
+  let(:mail_user) do
+    User.find_by_email('signup@test.com')
+  end
+
   describe 'POST /login' do
 
     it 'returns http success (ok : 200)' do
@@ -74,6 +78,14 @@ RSpec.describe 'Sessions', type: :request do
 
     it 'returns http success (ok: created)' do
       request_signup_ok
+
+      perform_enqueued_jobs do
+        UserMailer.with(user: mail_user).send_verification_email.deliver_later
+      end
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to[0]).to eq 'signup@test.com'
+
       expect(response).to have_http_status(:created)
     end
 

@@ -13,4 +13,17 @@ class UsersController < ApplicationController
       render json: @current_user, status: :ok
     end
   end
+
+  def verify
+    user = User.find_by_auth_token(user_token[:token])
+    if user.verified.nil?
+      user.update_attribute(:verified, true)
+      user.update_attribute(:verification_date, DateTime.now)
+    end
+  end
+
+  private
+  def user_token
+    params.permit(:token)
+  end
 end
