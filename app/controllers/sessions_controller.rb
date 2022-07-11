@@ -7,12 +7,12 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_email(login_params[:email])
 
-    if user.verified && user&.authenticate(login_params[:password])
+    if user&.authenticate(login_params[:password]) && user.verified
       reset_session
       session[:user_id] = user.id
-      return render status: :ok
+      render status: :ok
     else
-      return render status: :unauthorized
+      render status: :unauthorized
     end
   end
 

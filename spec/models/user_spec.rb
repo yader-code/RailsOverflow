@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  let(:user) { User.new(name: 'Jhader', keywords: ['Testing'], email: 'testing@test.com') }
+  let(:user) { User.new(name: 'Jhader', keywords: ['Testing'], email: 'testing@test.com', password: 'qwerty123') }
 
   context 'User correctly created' do
     it { expect(user).to be_valid }

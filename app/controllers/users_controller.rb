@@ -16,10 +16,13 @@ class UsersController < ApplicationController
 
   def verify
     user = User.find_by_auth_token(user_token[:token])
-    if user.verified.nil?
+    if user.present? && user.verified.nil?
       user.update_attribute(:verified, true)
       user.update_attribute(:verification_date, DateTime.now)
+      return
     end
+
+    return render status: :unauthorized
   end
 
   private

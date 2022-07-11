@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
   let!(:user_found_by_email) do
-    User.create(name: 'Jhader', keywords: ['Testing'], email: 'testing@test.com', password: 'qwerty123')
+    User.create(name: 'Jhader', keywords: ['Testing'], email: 'testing@test.com', password: 'qwerty123', verified: true,
+                verification_date: DateTime.now)
   end
 
   let(:request_login_ok) do
@@ -84,7 +85,7 @@ RSpec.describe 'Sessions', type: :request do
       end
 
       mail = ActionMailer::Base.deliveries.last
-      expect(mail.to[0]).to eq 'signup@test.com'
+      expect(mail.to[0]).to eq mail_user.email
 
       expect(response).to have_http_status(:created)
     end
