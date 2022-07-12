@@ -3,10 +3,9 @@ class SessionsController < ApplicationController
   skip_before_action :require_login, only: %i[create signup]
 
   def create
-
     user = User.find_by_email(login_params[:email])
 
-    if user&.authenticate(login_params[:password])
+    if user&.authenticate(login_params[:password]) && user.verified
       reset_session
       session[:user_id] = user.id
       render status: :ok
@@ -27,6 +26,7 @@ class SessionsController < ApplicationController
     if user.errors.present?
       render json: user.errors, status: :bad_request
     else
+      UserMailer.with(user: user).send_verification_email.deliver_later
       render status: :created
     end
   end
@@ -40,4 +40,5 @@ class SessionsController < ApplicationController
   def signup_params
     params.permit(:email, :password, :name, keywords: [])
   end
+
 end

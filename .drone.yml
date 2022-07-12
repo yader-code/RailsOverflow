@@ -1,22 +1,32 @@
 kind: pipeline
 type: docker
-name: RailsOverflow 
+name: RailsOverflow
+globals:
+  - &environment_path
+    BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
+    BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
 steps:
 - name: Run linter
   image: ruby:3.1.2
   environment:
-    BUNDLE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/vendor
-    BUNDLE_CACHE_PATH: /drone-pipeline/${DRONE_REPO}/bundle/cache
+    <<: *environment_path
+  commands:
+    - bundle package
+    - bundle exec rubocop
+
+- name: Run test
+  image: ruby:3.1.2
+  environment:
+    <<: *environment_path
     DATABASE_NAME: rails_overflow_test
     DB_HOST: postgres-service
     DB_PORT: 5432
     DB_USERNAME: test_user
     DB_PASSWORD: password123
   commands:
-    - bundle package
-    - bundle exec rubocop
     - bundle exec rails db:create db:migrate --trace
     - bundle exec rspec
+
 services:
   - name: postgres-service
     image: postgres:14

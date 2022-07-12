@@ -10,6 +10,14 @@ RSpec.describe UsersController, type: :controller do
     session[:user_id] = user.id
   end
 
+  let(:user_verification_ok) do
+    get :verify, params: { 'token': user.auth_token }
+  end
+
+  let(:user_verification_fails) do
+    get :verify, params: { 'token': 'Qwertyuiopasdfghjklzxcvbnmqwertyuioas' }
+  end
+
   describe 'GET /show' do
     it 'returns http success' do
       user_session
@@ -21,6 +29,18 @@ RSpec.describe UsersController, type: :controller do
 
     it 'returns http unauthorized when te user is not logged in' do
       get :show
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+  
+  describe 'GET /verify' do
+    it 'returns http success ' do
+      user_verification_ok
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'returns http error ' do
+      user_verification_fails
       expect(response).to have_http_status(:unauthorized)
     end
   end
