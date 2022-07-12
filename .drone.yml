@@ -20,6 +20,7 @@ steps:
     DB_USERNAME: test_user
     DB_PASSWORD: password123
   commands:
+    - bundle package
     - bundle exec rails db:create db:migrate --trace
     - bundle exec rspec
 
