@@ -12,6 +12,7 @@ steps:
     - bundle exec rubocop
 
 - name: Run test
+  image: ruby:3.1.2
   environment:
     DATABASE_NAME: rails_overflow_test
     DB_HOST: postgres-service
