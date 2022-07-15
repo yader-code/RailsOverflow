@@ -31,12 +31,12 @@ RSpec.describe 'Users', type: :request do
 
   describe 'GET /verify' do
     it 'returns http success ' do
-      get '/api/user/verify', params: { 'token': user_not_verified.auth_token }
+      get '/api/user/verify', params: { token: user_not_verified.auth_token }
       expect(response).to have_http_status(:no_content)
     end
 
     it 'returns http error ' do
-      get '/api/user/verify', params: { 'token': 'Qwertyuiopasdfghjklzxcvbnmqwertyuioas' }
+      get '/api/user/verify', params: { token: 'Qwertyuiopasdfghjklzxcvbnmqwertyuioas' }
       expect(response).to have_http_status(:unauthorized)
     end
   end
