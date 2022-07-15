@@ -1,7 +1,8 @@
-module AuthenticationHelper
+# frozen_string_literal: true
 
+module AuthenticationHelper
   def require_login
-    current_user.present?
+    render status: :unauthorized unless current_user.present?
   end
 
   def current_user
