@@ -1,10 +1,14 @@
 AllCops:
-  Includes:
-    - Rakefile
-    - config.ru
   Excludes:
     - db/**
     - config/**
     - script/**
     - vendor/**/*
     - bin/**
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false

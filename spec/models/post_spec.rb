@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Post, type: :model do
-
   let(:post) { Post.new(user: User.new, content: 'Test') }
 
   context 'when Post correctly created' do

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Comment, type: :model do
-
   let(:comment) { Comment.new(user: User.new, post: Post.new, content: 'Test') }
 
   context 'when Comment correctly created' do

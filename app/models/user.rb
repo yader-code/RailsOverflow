@@ -1,5 +1,6 @@
-class User < ApplicationRecord
+# frozen_string_literal: true
 
+class User < ApplicationRecord
   has_secure_password :password, validations: false
   has_secure_token :auth_token, length: 36
 
@@ -23,7 +24,6 @@ class User < ApplicationRecord
   end
 
   def remove_white_spaces_begin_and_end_of_name
-    self.name.strip!
+    name.strip!
   end
-
 end
