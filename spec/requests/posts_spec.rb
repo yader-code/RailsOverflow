@@ -28,7 +28,7 @@ RSpec.describe 'Posts', type: :request do
   describe 'POST /posts' do
     it 'return http created' do
       login(user_with_posts)
-      post '/api/posts', params: '{ "title": "This is a test", "content": "unit test for post creation", "id": 1 }',
+      post '/api/posts', params: '{ "title": "This is a test", "content": "unit test for post creation" }',
                          headers: { 'CONTENT_TYPE' => 'application/json' }
 
       expect(response).to have_http_status(:created)
@@ -61,7 +61,7 @@ RSpec.describe 'Posts', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'return http bad_request' do
+    it 'return http ok' do
       login(user_with_posts)
       put "/api/posts/#{parent_post.id}",
           params: '{ "title": "This is a test" }',
