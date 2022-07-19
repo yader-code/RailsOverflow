@@ -11,4 +11,4 @@ Metrics/BlockLength:
     - spec/**/*
 
 Style/Documentation:
-    Enabled: false
+  Enabled: false
