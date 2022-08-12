@@ -12,3 +12,9 @@ Metrics/BlockLength:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/AbcSize:
+  Max: 1000
+
+Metrics/MethodLength:
+  Max: 150

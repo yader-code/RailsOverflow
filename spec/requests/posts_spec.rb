@@ -24,12 +24,37 @@ RSpec.describe 'Posts', type: :request do
                 post_id: parent_post.id)
   end
 
+  let!(:user_with_posts_two) do
+    User.create(name: 'Jhader', keywords: ['Testing'], email: 'withpost2@test.com', password: 'qwerty123', verified: true,
+                verification_date: DateTime.now)
+  end
+  let!(:child_post_two) do
+    Post.create(title: 'Child two', content: 'this is the second child post', user: user_with_posts_two,
+                post_id: parent_post.id)
+  end
+
   # <<<<<<< CREATION POST TESTS >>>>>>
   describe 'POST /posts' do
-    it 'return http created' do
+    it 'return http created for a parent post' do
       login(user_with_posts)
       post '/api/posts', params: '{ "title": "This is a test", "content": "unit test for post creation" }',
                          headers: { 'CONTENT_TYPE' => 'application/json' }
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it 'return http created for a child post' do
+      login(user_with_posts)
+
+      perform_enqueued_jobs do
+        post '/api/posts',
+             params: { title: 'Child post', content: 'unit test for post creation to send emails',
+                       post_id: parent_post.id }.to_json,
+             headers: { 'CONTENT_TYPE' => 'application/json' }
+      end
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to[0]).to eq user_with_posts_two.email
 
       expect(response).to have_http_status(:created)
     end

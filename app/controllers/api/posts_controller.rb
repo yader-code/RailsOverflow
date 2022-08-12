@@ -3,7 +3,7 @@
 module Api
   class PostsController < ApiController
     include FilterAndPagination
-    skip_before_action :require_login, only: %i[index post_responses]
+    skip_before_action :require_login, only: %i[index post_responses show]
 
     def index
       posts = get_paginated_and_filtered(Post.posts_parents)
@@ -27,6 +27,7 @@ module Api
       if post.errors.present?
         render json: post.errors, status: :bad_request
       else
+        UserMailer.with(post_created: post).post_creation_notification_email.deliver_later if post.post_id.present?
         render json: post, status: :created
       end
     end
@@ -41,8 +42,12 @@ module Api
 
     def posts_by_user
       posts = get_paginated_and_filtered(current_user.posts)
-
       render json: posts, status: :ok
+    end
+
+    def show
+      post = Post.find(request_params[:id])
+      render json: post, status: :ok
     end
 
     private
