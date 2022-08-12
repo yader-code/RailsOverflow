@@ -27,13 +27,7 @@ module Api
       if post.errors.present?
         render json: post.errors, status: :bad_request
       else
-        users_emails = get_users_mail(Post.find(request_params[:post_id]).posts) if request_params[:post_id].present?
-        unless users_emails.nil?
-          UserMailer.with(post_created: post, emails: users_emails)
-                    .post_creation_notification_email
-                    .deliver_later
-        end
-
+        UserMailer.with(post_created: post).post_creation_notification_email.deliver_later if post.post_id.present?
         render json: post, status: :created
       end
     end
@@ -57,14 +51,6 @@ module Api
     end
 
     private
-
-    def get_users_mail(posts)
-      users = []
-      posts.pluck(:user_id).uniq.each do |user_id|
-        users.append(User.find(user_id).email)
-      end
-      users
-    end
 
     def request_params
       params.permit(:title, :content, :post_id, :id)
