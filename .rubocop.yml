@@ -14,7 +14,7 @@ Style/Documentation:
   Enabled: false
 
 Metrics/AbcSize:
-  Enabled: false
+  Max: 1000
 
 Metrics/MethodLength:
-  Enabled: false
+  Max: 150
